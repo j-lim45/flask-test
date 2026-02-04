@@ -4,8 +4,7 @@ import osmnx as ox
 
 app = Flask(__name__)
 
-nodes = gpd.read_file("files/angeles_all_nodes.geojson")
-edges = gpd.read_file("files/angeles_transit_edges.geojson")
+
 
 # Function that defines Specific link to return some json file
 @app.route("/get-user/<userid>")
@@ -26,6 +25,9 @@ def get_user(userid):
 
 @app.route("/get-shortest-path/<source>-<destination>")
 def getShortestPath(source, destination):
+    nodes = gpd.read_file("files/angeles_all_nodes.geojson")
+    edges = gpd.read_file("files/angeles_transit_edges.geojson")
+    
     nodes = nodes.set_index("osmid")
     nodes.index = nodes.index.astype(int)
     nodes.index.name = "osmid"
