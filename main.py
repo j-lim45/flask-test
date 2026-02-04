@@ -12,7 +12,7 @@ edges = gpd.read_file("files/angeles_transit_edges.geojson")
 def get_user(userid):
     userData = {
         "userId": userid,
-        "name": "John Down",
+        "name": "John Downnn",
         "email": "johndown@email.com"
     }
 
