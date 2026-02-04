@@ -29,7 +29,10 @@ def getShortestPath():
     source = request.args.get("source")
     destination = request.args.get("destination")
 
-    return source, destination
+    return jsonify({
+        "source": source,
+        "destination": destination
+    }), 200
 
     # nodes = gpd.read_file("files/angeles_all_nodes.geojson")
     # edges = gpd.read_file("files/angeles_transit_edges.geojson")
