@@ -23,32 +23,38 @@ def get_user(userid):
     return jsonify(userData), 200
 
 
-@app.route("/get-shortest-path/<source>-<destination>")
-def getShortestPath(source, destination):
-    nodes = gpd.read_file("files/angeles_all_nodes.geojson")
-    edges = gpd.read_file("files/angeles_transit_edges.geojson")
-    
-    nodes = nodes.set_index("osmid")
-    nodes.index = nodes.index.astype(int)
-    nodes.index.name = "osmid"
+@app.route("/get-shortest-path")
+def getShortestPath():
 
-    # 2. Ensure edges reference the same IDs
-    edges["u"] = edges["u"].astype(int)
-    edges["v"] = edges["v"].astype(int)
-    edges["key"] = edges["key"].astype(int)
+    source = request.args.get("source")
+    destination = request.args.get("destination")
 
-    edges = edges.set_index(["u", "v", "key"])
+    return source, destination
 
-    # 3. CRS must match
-    nodes = nodes.to_crs(edges.crs)
+    # nodes = gpd.read_file("files/angeles_all_nodes.geojson")
+    # edges = gpd.read_file("files/angeles_transit_edges.geojson")
 
-    G = ox.graph_from_gdfs(nodes, edges)
+    # nodes = nodes.set_index("osmid")
+    # nodes.index = nodes.index.astype(int)
+    # nodes.index.name = "osmid"
+
+    # # 2. Ensure edges reference the same IDs
+    # edges["u"] = edges["u"].astype(int)
+    # edges["v"] = edges["v"].astype(int)
+    # edges["key"] = edges["key"].astype(int)
+
+    # edges = edges.set_index(["u", "v", "key"])
+
+    # # 3. CRS must match
+    # nodes = nodes.to_crs(edges.crs)
+
+    # G = ox.graph_from_gdfs(nodes, edges)
 
 
-    computedShortestPath = ox.routing.shortest_path(G, source, destination, weight="weight")
-    gdfShortestPath = ox.routing.route_to_gdf(G, computedShortestPath)
+    # computedShortestPath = ox.routing.shortest_path(G, source, destination, weight="weight")
+    # gdfShortestPath = ox.routing.route_to_gdf(G, computedShortestPath)
 
-    return gdfShortestPath
+    # return gdfShortestPath
 
 if __name__ == "__main__":
     app.run(debug=True)
