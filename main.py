@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Test
 @app.route("/test/<num>")
-def get_user(num):
+def test_function(num):
     userData = {
         "Hello World!": num
     }
